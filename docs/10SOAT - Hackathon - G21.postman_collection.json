@@ -1,0 +1,736 @@
+{
+	"info": {
+		"_postman_id": "765c2ac1-83cc-447a-8130-1738d7c0e382",
+		"name": "10SOAT - Hackathon - G21",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2247744",
+		"_collection_link": "https://www.postman.com/filipe1309/workspace/10soat-g20/collection/2247744-765c2ac1-83cc-447a-8130-1738d7c0e382?action=share&source=collection_link&creator=2247744"
+	},
+	"item": [
+		{
+			"name": "User Service",
+			"item": [
+				{
+					"name": "Create user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vault:authorization-secret}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John\",\n    \"email\": \"john@fakeemail.com\",\n    \"password\": \"1234526\",\n    \"user_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{video-service-api}}/api/v1/user",
+							"host": [
+								"{{video-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user (auth)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{video-service-api}}/api/v1/video/:id",
+							"host": [
+								"{{video-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"video",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user (auth)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{video-service-api}}/api/v1/user/:id",
+							"host": [
+								"{{video-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user (auth)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{user-service-api}}/api/v1/user/:id",
+							"host": [
+								"{{user-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticate",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "john@fakeemail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{user-service-api}}/api/v1/user/auth",
+							"host": [
+								"{{user-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Video Service",
+			"item": [
+				{
+					"name": "Create video",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseData = pm.response.json();",
+									"pm.environment.set(\"aws-presign-url\", responseData.presigned_url);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vault:authorization-secret}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": 2,\n    \"name\": \"Test 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{video-service-api}}/api/v1/videos",
+							"host": [
+								"{{video-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"videos"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Video",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"video a\",\n    \"description\": \"awesome video a\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{video-service-api}}/api/v1/video",
+									"host": [
+										"{{video-service-api}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"video"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"id\": 1,\n    \"user_id\": 1,\n    \"name\": \"John\",\n    \"email\": \"john@fakeemail.com\",\n    \"created_at\": \"2025-09-21T19:48:20Z\",\n    \"updated_at\": \"2025-09-21T19:48:20Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "List videos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{video-service-api}}/api/v1/videos",
+							"host": [
+								"{{video-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"videos"
+							]
+						},
+						"description": "List all videos of a single user"
+					},
+					"response": []
+				},
+				{
+					"name": "List videos Filter by hash",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{video-service-api}}/api/v1/videos?hash=qweqweqw",
+							"host": [
+								"{{video-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"videos"
+							],
+							"query": [
+								{
+									"key": "hash",
+									"value": "qweqweqw"
+								}
+							]
+						},
+						"description": "List all videos of a single user"
+					},
+					"response": [
+						{
+							"name": "List videos Copy",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{video-service-api}}/api/v1/videos?hash=asd",
+									"host": [
+										"{{video-service-api}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"videos"
+									],
+									"query": [
+										{
+											"key": "hash",
+											"value": "asd"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "POST, OPTIONS, GET, PUT, DELETE"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Request-Id",
+									"value": "05007336-ec88-417a-a0bc-62478ca407ca"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Sep 2025 16:58:09 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"total\": 0,\n    \"page\": 1,\n    \"limit\": 10,\n    \"videos\": []\n}"
+						},
+						{
+							"name": "List videos Copy",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{video-service-api}}/api/v1/videos?hash=qweqweqw",
+									"host": [
+										"{{video-service-api}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"videos"
+									],
+									"query": [
+										{
+											"key": "hash",
+											"value": "qweqweqw"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "POST, OPTIONS, GET, PUT, DELETE"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Request-Id",
+									"value": "1aae98e6-a0fe-4942-a16e-f828671c7734"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Sep 2025 16:59:58 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1465"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"total\": 1,\n    \"page\": 1,\n    \"limit\": 10,\n    \"videos\": [\n        {\n            \"id\": 6,\n            \"user_id\": 2,\n            \"name\": \"Test 1\",\n            \"description\": \"\",\n            \"status\": \"FINISHED\",\n            \"hash\": \"qweqweqw\",\n            \"presigned_url\": \"https://fiapx-10soat-g21.s3.us-east-1.amazonaws.com/raw/2/Test%201?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential={{vault:aws-access-key}}%2F20250907%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250907T211339Z&X-Amz-Expires=900&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEMaCXVzLXdlc3QtMiJHMEUCIE4WwKIpOXLD%2FeojuI7XoFjp3yhAHpzqlHC0FPSC5tMJAiEA2KVhjT1yJNb%2B6jXZiJqhjxBNwd8zIX1ULmT3hAelaN0qtwIIrP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw4NDgyOTg3NjMyMzciDOMycHrNuKTYQvN94CqLAhvB%2FipsRftZqlb5h35t2TGxU7kl22yevfXpppUUEhSaN%2F7O5vh6ZAnPGqvpJLPDYUBvVwzumHfIYRviuEX7IAqNSr0d6Sfn01BgbNCfmmuyayqnOEVc%2B00EgWl6%2B4581PiLXQIbal4MJ59CtWGeu1LN2B26tib3H1C%2BSW7BSVU24ZIYkB9ROS2bTonJEJ7z1fvo%2BseddknyfCB%2BOc3c8Kwp2DTPBlJJDczLQ%2FzkFfe8fteQL0f2WiXRmmQ1SbiYnpNEN4TF6YFA2RAkrBc0MIDw63EtyvBl2zMC4pCuAnSjn4WdjfleHa6FNF763keil%2F8WWPbCX%2Fb%2B50mBe8vD7sQyFanWMCTA1u6WCjCho%2FfFBjqdAaDo%2FuLoRaes4cBeR0YzfaYLH7YG5AAZqjBr%2BTACDXnTSevuMCuS5xvWgbjT9tjGj7r%2FueQ6kgEf%2B9qMXte4cAJhGXbT45BiFwadN4Dn6FafyyNOMIwbPxVAtkY87SlmTbj4ic5CmK0IAw4yV8c%2BI8MCEQcjOtGn0m%2Bcy6GEPBz3ZPPOt8GTsMGui%2B7lEWMa5hIiVU9Nbxl8w77m7oU%3D&X-Amz-SignedHeaders=host&x-id=PutObject&X-Amz-Signature=050da4a3389fdb0d1397597a72d31986412331e79935a5a79ea21b3984485dc5\",\n            \"created_at\": \"2025-09-07T18:13:39Z\",\n            \"updated_at\": \"2025-09-13T18:21:15Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get video",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{video-service-api}}/api/v1/videos/:id",
+							"host": [
+								"{{video-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"videos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update video",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"PROCESSING\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{video-service-api}}/api/v1/videos/:id",
+							"host": [
+								"{{video-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"videos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update video + Status and Hash",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"FINISHED\",\n    \"hash\": \"qweqweqw\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{video-service-api}}/api/v1/videos/:id",
+							"host": [
+								"{{video-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"videos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete video",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{video-service-api}}/api/v1/videos/:id",
+							"host": [
+								"{{video-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"videos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download processed video",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{video-service-api}}/api/v1/videos/:id/processed",
+							"host": [
+								"{{video-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"videos",
+								":id",
+								"processed"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "8"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Download processed video",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{video-service-api}}/api/v1/videos/:id/processed",
+									"host": [
+										"{{video-service-api}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"videos",
+										":id",
+										"processed"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "POST, OPTIONS, GET, PUT, DELETE"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Request-Id",
+									"value": "9c0c0c06-4951-4023-8c3b-169823ef029a"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Sep 2025 18:18:16 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1300"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"presigned_url\": \"https://fiapx-10soat-g21.s3.us-east-1.amazonaws.com/processed/VGVzdCAz?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential={{vault:aws-access-key}}%2F20250914%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250914T181816Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIGeBDQDlVZ4PTa8c7Djrd8%2FPO55dNCUjNpt%2BJSCo7KD6AiEA%2Fn2LFecDBFnDWCnE387Ln%2FxYF4zAbA7HT07VZIzBud8qrgIIYxAAGgw4NDgyOTg3NjMyMzciDCEC%2FDv5ZrVxIeycwCqLAu9PNQsK7mY7X%2Bl0JnBrEdubZ2uWpWLd2EOuLiaELBXWIWAf1SQJEe30d9eUdERFS7w1ORLsXDWuyoHbXzPjMKADwAIX4ico%2BQT268zh0laqNKbxSMlrxYI%2BKz1aMUgwp4P4kPjiwvcsIdSweawkSRmVWNOiegDYCGeLE%2FQ7sCJBH%2Bi7xUW7Bt1OzgqLsqAlcWDqHgqmiImyQJEbKilQmsqg3L%2BwU8u2QZOD0W1TYXwuVi%2BQzktWyqP%2FOlRCe3t%2B5avOTr1bxHMTyNLCQLThX7QUPbu7nVwjEXyvLpCstaOWnWSU%2B5tsZ6NUtIYOAqrLwzh54RGkB%2FLnu37o07yQgT8EwiE3cdMNHH19uzDDi5zGBjqdARhaOe%2Bvk1sdYAEXB4cZUmuqlxW2ZHWXVGm6NX0t9RYwU%2BZkdqvu2VFf5%2FYrovxOCjRktOqB0YovqQKu1j7iNZ8VUqNp4ThdUjIVUonP52%2FLN8%2FVY7eHHJ0b0r2zIXwoGC8PEyXyFogvITvbQ5%2FbPv8VVBkd1zvNpFQvQEQrup4SNQ7Ur6UAK2kFi9VcfZaANiFU0CSx6TTdsAcS4r8%3D&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=5b24a2fd931ccabcd0f1f591a9e7217c6571886a9a3bd8ce8eac9e25a02f06a3\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Upload File to S3 with Presign URL",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-amz-meta-user-id",
+								"value": "2",
+								"type": "text"
+							},
+							{
+								"key": "x-amz-meta-video-id",
+								"value": "13",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/Users/filipe1309/Downloads/test.mp4"
+							}
+						},
+						"url": {
+							"raw": "{{aws-presign-url}}",
+							"host": [
+								"{{aws-presign-url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Health - ReadyZ",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{video-service-api}}/api/v1/health/readyz",
+							"host": [
+								"{{video-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"health",
+								"readyz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Health - LiveZ",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{video-service-api}}/api/v1/health/livez",
+							"host": [
+								"{{video-service-api}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"health",
+								"livez"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

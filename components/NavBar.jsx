@@ -19,7 +19,7 @@ import { useUser } from '@auth0/nextjs-auth0';
 import PageLink from './PageLink';
 import AnchorLink from './AnchorLink';
 import Logo from './Logo';
-import { faLink } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +28,7 @@ const NavBar = () => {
 
   return (
     <div className="nav-container" data-testid="navbar">
-      <Navbar color="dark" light expand="md">
+      <Navbar color="light" light expand="md">
         <Container>
           <NavbarBrand className="logo">
             <Logo testId="navbar-logo" />
@@ -44,8 +44,13 @@ const NavBar = () => {
               {user && (
                 <>
                   <NavItem>
-                    <PageLink href="/external" className="nav-link" testId="navbar-external">
+                    <PageLink href="/videos" className="nav-link" testId="navbar-videos">
                       Videos
+                    </PageLink>
+                  </NavItem>
+                  <NavItem>
+                    <PageLink href="/about" className="nav-link" testId="navbar-about">
+                      About
                     </PageLink>
                   </NavItem>
                 </>
@@ -81,12 +86,12 @@ const NavBar = () => {
                       {user.name}
                     </DropdownItem>
                     <DropdownItem className="dropdown-profile" tag="span">
-                      <PageLink href="/profile" icon="user" testId="navbar-profile-desktop">
+                      <PageLink href="/profile" icon={faUser} testId="navbar-profile-desktop">
                         Profile
                       </PageLink>
                     </DropdownItem>
                     <DropdownItem id="qsLogoutBtn">
-                      <AnchorLink href="/auth/logout" icon="power-off" testId="navbar-logout-desktop">
+                      <AnchorLink href="/auth/logout" icon={faPowerOff} testId="navbar-logout-desktop">
                         Log out
                       </AnchorLink>
                     </DropdownItem>
@@ -128,7 +133,7 @@ const NavBar = () => {
                   </span>
                 </NavItem>
                 <NavItem>
-                  <PageLink href="/profile" icon="user" testId="navbar-profile-mobile">
+                  <PageLink href="/profile" icon={faUser} testId="navbar-profile-mobile">
                     Profile
                   </PageLink>
                 </NavItem>
@@ -136,7 +141,7 @@ const NavBar = () => {
                   <AnchorLink
                     href="/auth/logout"
                     className="btn btn-link p-0"
-                    icon="power-off"
+                    icon={faPowerOff}
                     testId="navbar-logout-mobile">
                     Log out
                   </AnchorLink>
