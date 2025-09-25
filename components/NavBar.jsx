@@ -19,6 +19,7 @@ import { useUser } from '@auth0/nextjs-auth0';
 import PageLink from './PageLink';
 import AnchorLink from './AnchorLink';
 import Logo from './Logo';
+import DarkModeToggle from './DarkModeToggle';
 import { faLink, faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 
 const NavBar = () => {
@@ -57,6 +58,9 @@ const NavBar = () => {
               )}
             </Nav>
             <Nav className="d-none d-md-block" navbar>
+              <NavItem>
+                <DarkModeToggle testId="navbar-dark-mode-desktop" />
+              </NavItem>
               {!isLoading && !user && (
                 <NavItem id="qsLoginBtn">
                   <AnchorLink
@@ -101,13 +105,18 @@ const NavBar = () => {
             </Nav>
             {!isLoading && !user && (
               <Nav className="d-md-none" navbar>
-                <AnchorLink
-                  href="/auth/login"
-                  className="btn btn-primary btn-block"
-                  tabIndex={0}
-                  testId="navbar-login-mobile">
-                  Log in
-                </AnchorLink>
+                <NavItem>
+                  <DarkModeToggle testId="navbar-dark-mode-mobile" />
+                </NavItem>
+                <NavItem>
+                  <AnchorLink
+                    href="/auth/login"
+                    className="btn btn-primary btn-block"
+                    tabIndex={0}
+                    testId="navbar-login-mobile">
+                    Log in
+                  </AnchorLink>
+                </NavItem>
               </Nav>
             )}
             {user && (
@@ -131,6 +140,9 @@ const NavBar = () => {
                       {user.name}
                     </h6>
                   </span>
+                </NavItem>
+                <NavItem>
+                  <DarkModeToggle testId="navbar-dark-mode-mobile" />
                 </NavItem>
                 <NavItem>
                   <PageLink href="/profile" icon={faUser} testId="navbar-profile-mobile">
