@@ -142,7 +142,7 @@ const NavBar = () => {
                   </span>
                 </NavItem>
                 <NavItem>
-                  <DarkModeToggle testId="navbar-dark-mode-mobile" />
+                  <DarkModeToggle testId="navbar-dark-mode-mobile-authenticated" />
                 </NavItem>
                 <NavItem>
                   <PageLink href="/profile" icon={faUser} testId="navbar-profile-mobile">
