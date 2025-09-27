@@ -4,17 +4,13 @@ RUN mkdir /app
 
 WORKDIR /app
 
-COPY package.json .
-COPY next.config.js .
-COPY api-server.js .
-COPY .env.local .
+COPY . .
 
 RUN npm install
 RUN npm run build
 
 COPY .next ./.next
 COPY public ./.public
-COPY . .
 
 # ---------------
 
