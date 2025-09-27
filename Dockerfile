@@ -10,7 +10,7 @@ COPY api-server.js .
 COPY .env.local .
 
 RUN npm install
-RUN npm build
+RUN npm run build
 
 COPY .next ./.next
 COPY public ./.public
