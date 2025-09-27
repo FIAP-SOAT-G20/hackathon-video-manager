@@ -25,7 +25,7 @@ if (!audience) {
 
 app.use(morgan('dev'));
 app.use(helmet());
-app.use(cors({ origin: baseUrl }));
+app.use(cors({ origin: '*' }));
 
 const checkJwt = jwt({
   secret: jwksRsa.expressJwtSecret({
