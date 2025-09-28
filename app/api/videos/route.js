@@ -58,7 +58,7 @@ export const GET = async function videos(request) {
     const { searchParams } = new URL(request.url);
     const hash = searchParams.get('hash') || '';
     const page = searchParams.get('page') || '1';
-    const limit = searchParams.get('limit') || '10';
+    const limit = searchParams.get('limit') || '99999';
 
     // Build query string for video service
     const queryParams = new URLSearchParams();
