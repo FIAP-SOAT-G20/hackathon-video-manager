@@ -47,7 +47,7 @@ export default function Videos() {
         }
       });
 
-      const response = await fetch(`/api/videos?${queryParams.toString()}`);
+      const response = await fetch(`/api/videos?${queryParams.toString()}`, { cache: 'no-store' });
       
       if (!response.ok) {
         throw new Error('Failed to fetch videos');
