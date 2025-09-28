@@ -9,12 +9,12 @@ const jwksRsa = require('jwks-rsa');
 
 const app = express();
 const port = process.env.API_PORT || 3001;
-const baseUrl = process.env.APP_BASE_URL;
+// const baseUrl = process.env.APP_BASE_URL;
 const domain = process.env.AUTH0_DOMAIN;
 const issuerBaseUrl = `https://${process.env.AUTH0_DOMAIN}`;
 const audience = process.env.AUTH0_AUDIENCE;
 
-if (!baseUrl || !domain) {
+if (!domain) {
   throw new Error('Please make sure that the file .env.local is in place and populated');
 }
 
