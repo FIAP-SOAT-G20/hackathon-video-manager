@@ -1,38 +1,67 @@
-# Auth0 Next.js SDK Sample Application
+# Hackathon Video Manager
 
-This sample demonstrates the integration of [Auth0 Next.js SDK](https://github.com/auth0/nextjs-auth0) into a Next.js application created using [create-next-app](https://nextjs.org/docs/api-reference/create-next-app). The sample is a companion to the [Auth0 Next.js SDK Quickstart](https://auth0.com/docs/quickstart/webapp/nextjs).
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-blue)](https://reactjs.org/)
+[![Auth0](https://img.shields.io/badge/Auth0-Enabled-orange)](https://auth0.com/)
+[![Docker](https://img.shields.io/badge/Docker-Supported-blue)](https://www.docker.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)](https://www.typescriptlang.org/)
+[![Tests](https://img.shields.io/badge/Tests-Vitest%20%7C%20Cypress-green)](https://vitest.dev/)
 
-This sample demonstrates the following use cases:
+A modern, scalable video management application built with Next.js, featuring authentication, video upload, processing, and management capabilities. This application demonstrates clean architecture principles and integrates with Auth0 for secure authentication.
 
-- [Login](https://github.com/auth0-samples/auth0-nextjs-samples/blob/main/Sample-01/components/NavBar.jsx#L61-L67)
-- [Logout](https://github.com/auth0-samples/auth0-nextjs-samples/blob/main/Sample-01/components/NavBar.jsx#L93-L95)
-- [Showing the user profile](https://github.com/auth0-samples/auth0-nextjs-samples/blob/main/Sample-01/pages/profile.jsx)
-- [Protecting client-side rendered pages](https://github.com/auth0-samples/auth0-nextjs-samples/blob/main/Sample-01/pages/profile.jsx#L43-L46)
-- [Calling APIs](https://github.com/auth0-samples/auth0-nextjs-samples/blob/main/Sample-01/pages/external.jsx)
+## 🚀 Features
 
-## Project setup
+- **🔐 Authentication**: Secure user authentication with Auth0
+- **📹 Video Management**: Upload, view, and manage video content
+- **🎨 Modern UI**: Responsive design with dark mode support
+- **⚡ Real-time Updates**: Live video status updates and processing
+- **🔍 Search & Filter**: Advanced filtering and search capabilities
+- **📱 Responsive Design**: Works seamlessly across all devices
+- **🧪 Comprehensive Testing**: Unit and integration tests
+- **🐳 Docker Support**: Containerized deployment ready
 
-Use `npm` to install the project dependencies:
+## 🏗️ Architecture
+
+This application follows modern web development practices:
+
+- **Frontend**: Next.js 15 with React 19
+- **Authentication**: Auth0 Next.js SDK
+- **API**: Express.js server with JWT validation
+- **Styling**: Reactstrap with Bootstrap components
+- **Testing**: Vitest for unit tests, Cypress for E2E tests
+- **Deployment**: Docker containerization
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (v18 or higher)
+- **npm** (v8 or higher)
+- **Docker** (optional, for containerized deployment)
+- **Auth0 Account** (for authentication)
+
+## 🚀 Quick Start
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/FIAP-SOAT-G20/hackathon-video-manager.git
+cd hackathon-video-manager
+```
+
+### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-## Configuration
+### 3. Environment Configuration
 
-### Create an API
+Create a `.env.local` file in the root directory:
 
-For the **External API** page to work, you will need to [create an API](https://auth0.com/docs/authorization/apis) using the [management dashboard](https://manage.auth0.com/#/apis). This will give you an API Identifier that you can use in the `AUTH0_AUDIENCE` environment variable below. Then you will need to [add a permission](https://auth0.com/docs/get-started/dashboard/add-api-permissions) named `read:shows` to your API. To get your app to ask for that permission, include it in the value of the `AUTH0_SCOPE` environment variable.
-
-If you do not wish to use an API or observe the API call working, you should not specify the `AUTH0_AUDIENCE` and `AUTH0_SCOPE` values in the next steps.
-
-### Configure credentials
-
-The project needs to be configured with your Auth0 Domain, Client ID and Client Secret for the authentication flow to work.
-
-To do this, first copy `.env.local.example` into a new file in the same folder called `.env.local`, and replace the values with your own Auth0 application credentials (see more info about [loading environmental variables in Next.js](https://nextjs.org/docs/basic-features/environment-variables)):
-
-```sh
+```bash
 # A long secret value used to encrypt the session cookie
 AUTH0_SECRET='LONG_RANDOM_VALUE'
 # The base url of your application
@@ -43,74 +72,329 @@ AUTH0_DOMAIN='YOUR_AUTH0_DOMAIN.auth0.com'
 AUTH0_CLIENT_ID='YOUR_AUTH0_CLIENT_ID'
 # Your Auth0 application's Client Secret
 AUTH0_CLIENT_SECRET='YOUR_AUTH0_CLIENT_SECRET'
-# Your Auth0 API's Identifier 
-# OMIT if you do not want to use the API part of the sample
+# Your Auth0 API's Identifier
 AUTH0_AUDIENCE='YOUR_AUTH0_API_IDENTIFIER'
 # The permissions your app is asking for
-# OMIT if you do not want to use the API part of the sample
 AUTH0_SCOPE='openid profile email read:shows'
+# API Server Port
+API_PORT=3001
+# API Video Service Server
+VIDEO_SERVICE_API='https://localhost:8080'
 ```
 
-**Note**: Make sure you replace `AUTH0_SECRET` with your own secret (you can generate a suitable string using `openssl rand -hex 32` on the command line).
+**Note**: Generate a secure `AUTH0_SECRET` using:
+```bash
+openssl rand -hex 32
+```
 
-## Run the sample
+### 4. Auth0 Setup
 
-### Compile and hot-reload for development
+1. **Create an Auth0 Application**:
+   - Go to [Auth0 Dashboard](https://manage.auth0.com)
+   - Create a new "Single Page Application"
+   - Configure allowed callback URLs: `http://localhost:3000/api/auth/callback`
+   - Configure allowed logout URLs: `http://localhost:3000`
 
-This compiles and serves the Next.js app and starts the API server on port 3001.
+2. **Create an API**:
+   - Create a new API in Auth0 Dashboard
+   - Add a permission named `read:shows`
+   - Use the API Identifier in your `AUTH0_AUDIENCE` environment variable
+
+### 5. Run the Application
 
 ```bash
+# Development mode (runs both Next.js and API server)
 npm run dev
+
+# Or run them separately
+npm run dev:api  # API server only
+npm run dev      # Next.js only
 ```
 
-## Deployment
+The application will be available at:
+- **Frontend**: http://localhost:3000
+- **API Server**: http://localhost:3001
 
-### Compiles and minifies for production
+## 🛠️ Development
+
+### Available Scripts
 
 ```bash
-npm run build
+# Development
+npm run dev              # Start both frontend and API with hot reload
+npm run dev:api          # Start API server with nodemon
+npm run build            # Build for production
+npm start                # Start production build
+
+# Testing
+npm run test             # Run unit tests with Vitest
+npm run test:watch       # Run tests in watch mode
+npm run test:integration # Run integration tests with Cypress
+npm run test:integration:watch # Open Cypress test runner
+
+# Code Quality
+npm run lint             # Run ESLint
+npm run format           # Format code with Prettier
 ```
 
-### Docker build
+### Project Structure
 
-To build and run the Docker image, run `exec.sh`, or `exec.ps1` on Windows.
+```
+hackathon-video-manager/
+├── app/                    # Next.js App Router pages
+│   ├── api/               # API routes
+│   ├── videos/            # Video management page
+│   ├── profile/           # User profile page
+│   └── ...
+├── components/            # Reusable React components
+├── contexts/              # React contexts (DarkMode, etc.)
+├── lib/                   # Utility libraries (Auth0 config)
+├── tests/                 # Test files
+├── utils/                 # Utility functions
+├── api-server.js          # Express API server
+├── middleware.js          # Next.js middleware
+└── ...
+```
 
-### Run the unit tests
+### Key Components
+
+- **Video Management**: Upload, view, and manage video content
+- **Authentication**: Secure login/logout with Auth0
+- **Dark Mode**: Theme switching with context
+- **Responsive Design**: Mobile-first approach
+- **Error Handling**: Comprehensive error states and loading indicators
+
+## 🧪 Testing
+
+### Unit Tests
 
 ```bash
+# Run all unit tests
 npm run test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
 ```
 
-### Run the integration tests
+### Integration Tests
 
 ```bash
+# Run Cypress E2E tests
 npm run test:integration
+
+# Open Cypress test runner
+npm run test:integration:watch
 ```
 
-## What is Auth0?
+### Test Structure
 
-Auth0 helps you to:
+- **Unit Tests**: Component and utility function testing with Vitest
+- **Integration Tests**: End-to-end testing with Cypress
+- **API Tests**: Express server endpoint testing
 
-* Add authentication with [multiple sources](https://auth0.com/docs/identityproviders), either social identity providers such as **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce** (amongst others), or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS, or any SAML Identity Provider**.
-* Add authentication through more traditional **[username/password databases](https://auth0.com/docs/connections/database/custom-db)**.
-* Add support for **[linking different user accounts](https://auth0.com/docs/users/user-account-linking)** with the same user.
-* Support for generating signed [JSON Web Tokens](https://auth0.com/docs/tokens/json-web-tokens) to call your APIs and **flow the user identity** securely.
-* Analytics of how, when, and where users are logging in.
-* Pull data from other sources and add it to the user profile through [JavaScript rules](https://auth0.com/docs/rules).
+## 🐳 Docker Deployment
 
-## Create a Free Auth0 Account
+### Build and Run with Docker
 
-1. Go to [Auth0](https://auth0.com) and click **Sign Up**.
-2. Use Google, GitHub, or Microsoft Account to login.
+```bash
+# Build the Docker image
+docker build -t hackathon-video-manager .
 
-## Issue Reporting
+# Run the container
+docker run -p 3000:3000 -p 3001:3001 \
+  -e APP_BASE_URL=http://localhost:3000 \
+  -e AUTH0_SECRET=your_secret \
+  -e AUTH0_DOMAIN=your_domain \
+  -e AUTH0_CLIENT_ID=your_client_id \
+  -e AUTH0_CLIENT_SECRET=your_client_secret \
+  -e AUTH0_AUDIENCE=your_audience \
+  -e VIDEO_SERVICE_API=your_video_service_api \
+  hackathon-video-manager
+```
 
-If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/responsible-disclosure-policy) details the procedure for disclosing security issues.
+### Using Docker Compose
 
-## Author
+Create a `docker-compose.yml` file:
 
-[Auth0](https://auth0.com)
+```yaml
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    environment:
+      - APP_BASE_URL=http://localhost:3000
+      - AUTH0_SECRET=${AUTH0_SECRET}
+      - AUTH0_DOMAIN=${AUTH0_DOMAIN}
+      - AUTH0_CLIENT_ID=${AUTH0_CLIENT_ID}
+      - AUTH0_CLIENT_SECRET=${AUTH0_CLIENT_SECRET}
+      - AUTH0_AUDIENCE=${AUTH0_AUDIENCE}
+      - NODE_ENV=production
+      - VIDEO_SERVICE_API=${VIDEO_SERVICE_API}
+```
 
-## License
+Run with:
+```bash
+docker-compose up -d
+```
 
-This project is licensed under the MIT license. See the [LICENSE](./LICENSE) file for more info.
+## 🚀 Production Deployment
+
+### Environment Variables
+
+Ensure all required environment variables are set in production:
+
+```bash
+NODE_ENV=production
+AUTH0_SECRET=your_production_secret
+AUTH0_DOMAIN=your_production_domain
+AUTH0_CLIENT_ID=your_production_client_id
+AUTH0_CLIENT_SECRET=your_production_client_secret
+AUTH0_AUDIENCE=your_production_audience
+APP_BASE_URL=https://your-domain.com
+API_PORT=3001
+VIDEO_SERVICE_API=your_video_service_api
+```
+
+### Build for Production
+
+```bash
+# Build the application
+npm run build
+
+# Start production server
+npm start
+```
+
+### Health Checks
+
+The application provides health endpoints:
+
+- **Frontend Health**: `GET /` (Next.js health check)
+- **API Health**: `GET /api/health` (Express server health check)
+
+## 📚 API Documentation
+
+### Authentication Endpoints
+
+- `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - User logout
+- `GET /api/auth/me` - Get current user
+
+### Video Management Endpoints
+
+- `GET /api/videos` - List all videos
+- `POST /api/videos` - Upload new video
+- `GET /api/videos/:id` - Get video details
+- `PUT /api/videos/:id` - Update video
+- `DELETE /api/videos/:id` - Delete video
+- `GET /api/videos/:id/processed` - Get processed video status
+
+### User Management Endpoints
+
+- `GET /api/user` - Get current user profile
+- `GET /api/user/:id` - Get user by ID
+
+## 🔧 Configuration
+
+### Auth0 Configuration
+
+The application uses Auth0 for authentication. Key configuration points:
+
+1. **Application Type**: Single Page Application (SPA)
+2. **Allowed Callback URLs**: `http://localhost:3000/api/auth/callback`
+3. **Allowed Logout URLs**: `http://localhost:3000`
+4. **Allowed Web Origins**: `http://localhost:3000`
+
+### Middleware Configuration
+
+The `middleware.js` file handles:
+- Authentication route protection
+- Session management
+- Redirect logic for unauthenticated users
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these guidelines:
+
+### Development Workflow
+
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
+3. **Make your changes** with tests
+4. **Run quality checks**: `npm run test && npm run lint`
+5. **Commit your changes**: Use conventional commit format
+6. **Push to your branch**: `git push origin feature/amazing-feature`
+7. **Create a Pull Request**
+
+### Code Standards
+
+- **React**: Follow React best practices and hooks patterns
+- **Next.js**: Use App Router conventions
+- **Testing**: Maintain >80% test coverage
+- **Documentation**: Update documentation for new features
+- **Conventional Commits**: Use conventional commit format
+
+### Pull Request Checklist
+
+- [ ] Tests pass (`npm run test`)
+- [ ] Linting passes (`npm run lint`)
+- [ ] Documentation updated
+- [ ] Integration tests included for new features
+- [ ] Environment variables documented
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+## 🆘 Troubleshooting
+
+### Common Issues
+
+1. **Auth0 Configuration Errors**
+   - Verify all environment variables are set correctly
+   - Check Auth0 dashboard for correct callback URLs
+   - Ensure API permissions are configured
+
+2. **Port Conflicts**
+   - Default ports: 3000 (Next.js), 3001 (API)
+   - Change ports in `.env.local` if needed
+
+3. **Build Errors**
+   - Clear `.next` folder: `rm -rf .next`
+   - Reinstall dependencies: `rm -rf node_modules && npm install`
+
+4. **Docker Issues**
+   - Ensure Docker is running
+   - Check port availability
+   - Verify environment variables in container
+
+### Getting Help
+
+- Check the [Issues](https://github.com/FIAP-SOAT-G20/hackathon-video-manager/issues) page
+- Review [Auth0 Next.js SDK Documentation](https://auth0.com/docs/quickstart/webapp/nextjs)
+- Consult [Next.js Documentation](https://nextjs.org/docs)
+
+## 📚 References
+
+### Technologies Used
+
+- [Next.js 15](https://nextjs.org/docs) - React framework
+- [Auth0 Next.js SDK](https://github.com/auth0/nextjs-auth0) - Authentication
+- [Reactstrap](https://reactstrap.github.io/) - Bootstrap components
+- [Vitest](https://vitest.dev/) - Testing framework
+- [Cypress](https://www.cypress.io/) - E2E testing
+- [Express.js](https://expressjs.com/) - API server
+
+### Architecture References
+
+- [Next.js App Router](https://nextjs.org/docs/app)
+- [Auth0 Integration Patterns](https://auth0.com/docs/architecture-scenarios)
+- [React Testing Best Practices](https://testing-library.com/docs/react-testing-library/intro/)
+- [Docker Best Practices](https://docs.docker.com/develop/dev-best-practices/)
+
